@@ -24,9 +24,14 @@ cd DB-lab7-retailmax
 docker compose up -d
 ```
 
-Esperar ~3 minutos mientras Metabase inicializa. Luego abrir:
+Esperar ~3 minutos mientras Metabase inicializa. Luego correr:
 
-**http://localhost:3000**
+```bash
+docker exec retailmax_postgres psql -U retailmax_user -d metabase_db -c "UPDATE setting SET value = 'true' WHERE key = 'setup-token';"
+docker restart retailmax_metabase
+```
+
+Esperar 1 minuto más y abrir **http://localhost:3000**
 
 ### Credenciales de Metabase
 | Campo | Valor |
@@ -34,31 +39,20 @@ Esperar ~3 minutos mientras Metabase inicializa. Luego abrir:
 | Email | `calificar@uvg.edu.gt` |
 | Contraseña | `secret123+` |
 
-> **Nota:** La primera vez que se levanta el ambiente, completar el wizard de setup con las credenciales de arriba. La base de datos ya viene precargada con DDL y datos.
-
-### Conexión a la base de datos (wizard)
-| Campo | Valor |
-|-------|-------|
-| Engine | PostgreSQL |
-| Host | `postgres` |
-| Port | `5432` |
-| Database | `retailmax` |
-| Username | `retailmax_user` |
-| Password | `retailmax_pass` |
-
 ---
 
 ## Estructura del repositorio
 
 ```
 DB-lab7-retailmax/
-├── docker-compose.yml       # Ambiente completo PostgreSQL + Metabase
+├── docker-compose.yml             # Ambiente completo PostgreSQL + Metabase
 ├── init/
 │   ├── 00_create_metabase_db.sql  # Crea la DB interna de Metabase
 │   ├── 01_DDL.sql                 # Esquema de RetailMax
-│   └── 02_DATA.sql                # Datos de prueba
-├── metabase-data/           # Volumen persistido con el dashboard
-├── informe.pdf              # Documentación de los 12 indicadores
+│   ├── 02_DATA.sql                # Datos de prueba
+│   ├── 03_metabase_dump.sql       # Dump del dashboard construido
+│   └── 04_restore_metabase.sh     # Script que restaura el dump en metabase_db
+├── informe.pdf                    # Documentación de los 12 indicadores
 └── README.md
 ```
 
@@ -71,7 +65,7 @@ DB-lab7-retailmax/
 
 ## Dashboard
 
-El dashboard está organizado en 2 tabs:
+El dashboard **Estrategia y Expansión Comercial** está organizado en 2 tabs:
 
-- **Tab 1 - Desempeño Global:** indicadores de ingresos, canales, márgenes y comportamiento de clientes.
-- **Tab 2 - Crecimiento y Expansión:** análisis regional, tendencias temporales y oportunidades de mercado.
+- **Tab 1 - Desempeño Global:** indicadores de ingresos por mes, top tiendas, canales de venta, márgenes por categoría, estados de pedidos y ticket promedio por segmento de cliente.
+- **Tab 2 - Crecimiento y Expansión:** análisis regional, crecimiento de clientes, rendimiento de tiendas, evolución interanual de ventas, categorías con mayor crecimiento y comportamiento de recompra.
