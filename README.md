@@ -52,7 +52,9 @@ DB-lab7-retailmax/
 │   ├── 02_DATA.sql                # Datos de prueba
 │   ├── 03_metabase_dump.sql       # Dump del dashboard construido
 │   └── 04_restore_metabase.sh     # Script que restaura el dump en metabase_db
-├── informe.pdf                    # Documentación de los 12 indicadores
+├── consultas/
+│   └── tab2_parteB.sql            # Consultas nativas de los indicadores 11-14 (Tab 2)
+├── informe.pdf                    # Documentación de los indicadores
 └── README.md
 ```
 
@@ -69,3 +71,14 @@ El dashboard **Estrategia y Expansión Comercial** está organizado en 2 tabs:
 
 - **Tab 1 - Desempeño Global:** indicadores de ingresos por mes, top tiendas, canales de venta, márgenes por categoría, estados de pedidos y ticket promedio por segmento de cliente.
 - **Tab 2 - Crecimiento y Expansión:** análisis regional, crecimiento de clientes, rendimiento de tiendas, evolución interanual de ventas, categorías con mayor crecimiento y comportamiento de recompra.
+
+### Indicadores Tab 2 — Parte B (`consultas/tab2_parteB.sql`)
+
+| # | Indicador | Descripción |
+|---|-----------|-------------|
+| 11 | Categorías con mayor crecimiento interanual | Variación de ingresos por categoría 2024 vs 2025 (años completos), ordenado por % de crecimiento. |
+| 12 | Días promedio entre 1ª y 2ª compra por segmento | Velocidad de recompra; solo clientes que volvieron a comprar. |
+| 13 | Productos alto margen / bajo volumen *(bonus)* | "Joyas ocultas": margen ≥ mediana y volumen ≤ mediana del catálogo. |
+| 14 | Efectividad de campañas por tipo y canal *(bonus)* | Tasa de respuesta y costo por respuesta por tipo de campaña y canal. |
+
+> Convención (igual que Parte A): ingreso neto = `cantidad * precio_unitario * (1 - descuento/100)` sobre pedidos con `estado = 'completado'`. Datos disponibles 2024-01-01 a 2026-05-14.
